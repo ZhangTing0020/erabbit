@@ -5,33 +5,34 @@
        -->
       <RouterLink to="/">首页</RouterLink>
     </li>
-    <li>
-      <a href="#">美食</a>
+    <li v-for="item in $store.state.cate.list" :key="item.id">
+      <a href="#">{{item.name}}</a>
       <div class="layer">
         <ul>
-          <li v-for="i in 10" :key="i">
+          <li v-for="obj in item.children" :key="obj.id">
             <a href="#">
-              <img src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/img/category%20(4).png" alt="">
-              <p>果干</p>
+              <img :src="obj.picture" alt="">
+              <p>{{obj.name}}</p>
             </a>
           </li>
         </ul>
       </div>
     </li>
-    <li><a href="#">餐厨</a></li>
-    <li><a href="#">艺术</a></li>
-    <li><a href="#">电器</a></li>
-    <li><a href="#">居家</a></li>
-    <li><a href="#">洗护</a></li>
-    <li><a href="#">孕婴</a></li>
-    <li><a href="#">服装</a></li>
-    <li><a href="#">杂货</a></li>
+
   </ul>
 </template>
 
 <script>
+// 使用vuex就要导入useStore
+import { useStore } from 'vuex'
+// import { setup } from 'vue'
 export default {
-  name: 'AppHeaderNav'
+  name: 'AppHeaderNav',
+  setup () {
+    // 触发store中的cate的actions
+    const store = useStore()
+    store.dispatch('cate/updateCate')
+  }
 }
 </script>
 

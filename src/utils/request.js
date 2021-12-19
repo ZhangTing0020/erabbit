@@ -6,7 +6,7 @@ import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
 // 调用接口的基准路径
-const baseURL = ''
+const baseURL = 'https://apipc-xiaotuxian-front.itheima.net/'
 
 // 创建一个axios实例
 
@@ -32,7 +32,7 @@ service.interceptors.request.use(config => {
 })
 
 // 响应拦截器
-service.interceptors.responce.use(res => {
+service.interceptors.response.use(res => {
   // 处理返回的数据:去掉一层data属性
   return res.data
 }, err => {
