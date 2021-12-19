@@ -1,66 +1,59 @@
-// 封装通用的接口调用模块
 
 import axios from 'axios'
-
-// 这里导入的 store 为什么要加上 @/ 呢
 import store from '@/store'
-import router from '@/router'
-// 调用接口的基准路径
+
+// 定义一个基地址
 const baseURL = ''
-
 // 创建一个axios实例
-
 const service = axios.create({
   baseURL: baseURL
 })
 
 // 请求拦截器
-service.interceptors.request.use(config => {
-  // token的来源
-  // ?????????????????????这个token是怎么来的????
+service.interceptor.request.use(config => {
+  // 先获取到token的值
   const token = store.state.user.profile.token
-  // *****************************
-
-  // 统一添加请求头,如果有token,就在前边加上Authorization
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+  // 后台返回的数据,会包裹两层
+  if (token) { // 如果token有值的话
+    // 就给请求头添加token
+    config.headers.Authorization = 'Bearer ' + token
   }
   return config
 }, err => {
-  // 这个为啥这么写呢???
-  return Promise.reject(err)
+  Promise.reject(err)
 })
 
 // 响应拦截器
-service.interceptors.responce.use(res => {
-  // 处理返回的数据:去掉一层data属性
+service.interceptor.response.use(res => {
   return res.data
 }, err => {
-  // 处理token失效的情况:失效后跳转到登录页面
-  if (err.responce && err.responce.status === 401) {
-    // token失效了，跳转到登录页面
-    router.push('/login')
-  }
-  return Promise.reject(err)
+  Promise.reject(err)
 })
 
-// 自己封装一个通用的接口调用函数
+// 不管是get请求还是post请求,或者是其他请求,都让其统一传data进来,在这里做统一判断
+// 自定义函数封装通用调用接口的方法：支持固定的data传参
+// 1. 传输传递；返回值
+// 2. 参数如何使用，具体的发送请求的过程，与axios有关
+
+// 下边就相当于是一个匿名函数
 export default (options) => {
+  // 如果是get请求方式,是可以不用传method的,所以也要考虑到这个情况
   let key = ''
   if (options.method) {
-    key = options.method.toUpperCase() === 'GET' ? 'params' : 'data'
+    // 如果method有值,那就要对method的值进行处理
+    // 如果是get请求就用params传参,其他请求就用data传参
+    key = options.method.toUpperCase() === 'get' ? 'params' : 'data'
   } else {
-    // 如果method请求方式没有传递，默认使用get请求
     key = 'params'
   }
-
   return service({
-    // 请求方式
-    method: options.method || 'get',
-    // 请求地址
     url: options.url,
-    // 请求参数：如果是get请求需要params传递参数；否则使用data传递参数
-    // ES6：对象的key可以是动态的变量
+    method: options.method || 'get', // 后边的逻辑或,是考虑到grt请求默认不输入method的情况
+    // ES6的规则,对象的键key是可以动态的
     [key]: options.data
   })
 }
+
+// api中做一个request请求,然后经过本文件,对用户发来的请求进行处理,,,把不同的请求方式进行划分,配上不同的传参方式,然后再
+
+// api调这个文件的顺序
