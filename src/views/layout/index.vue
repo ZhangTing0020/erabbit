@@ -1,10 +1,27 @@
 <template>
   <!-- 顶部的通栏 -->
-  <div>顶部通栏</div>
+  <TopNav />
   <!-- 顶部导航栏 -->
-  <div>导航栏</div>
+  <TopHeader />
   <!-- 路由填充位 -->
-  <router-view />
+  <div class="main">
+    <router-view />
+  </div>
   <!-- 底部的footer -->
-  <div>Footer</div>
+  <BottomFooter />
 </template>
+<script>
+import TopNav from './components/top-nav.vue'
+import TopHeader from './components/top-header.vue'
+import BottomFooter from './components/bottom-footer.vue'
+
+export default {
+  name: 'Layout',
+  components: { TopNav, TopHeader, BottomFooter }
+}
+</script>
+<style scoped lang='less'>
+.main {
+  min-height: 300px;
+}
+</style>
