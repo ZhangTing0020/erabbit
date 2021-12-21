@@ -30,9 +30,9 @@
       </li>
 
       <!-- 组件测试 -->
-      <span>
+      <!-- <span>
         <XtxSkeleton width="60px" height="60px" bg="blue" :animated="true"></XtxSkeleton>
-      </span>
+      </span> -->
     </ul>
     <!-- 弹层 -->
     <div class="layer">
