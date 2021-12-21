@@ -59,6 +59,7 @@ export default {
     transform: skewX(-45deg);
   }
 }
+
 @keyframes shan {
   0% {
     left: -100%;

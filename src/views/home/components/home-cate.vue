@@ -6,9 +6,20 @@
       <li v-for="item in $store.getters['cate/leftCates']" :key="item.id"
       @mouseenter="currentId=item.id" @mouseleave="currentId=null">
         <RouterLink to="/">{{ item.name }}</RouterLink>
+        <!-- 二级路由,,侧边导航栏旁边的小字,因为v-if 和v-for最好不要在一个标签上显示,所以包裹一层template标签 -->
+        <!-- item.children本来时不存在的,所以这个二级路由没有渲染出来的时候,先显示骨架屏占位,,,item.children是从utils/constant.js中的数组,map一下,加上id,包裹成对象
+        就是说从store/modules/cate.js中拿到的,所以他本身是没有children -->
+        <template v-if="item.children">
         <RouterLink v-for="tag in item.children" :key="tag.id" to="/">
           {{ tag.name }}
         </RouterLink>
+        </template>
+        <!-- 显示骨架屏 -->
+        <template v-else>
+          <!-- 两个小字(小标签之间间隔5px)  并且做了一个小动画,一直在从暗到亮闪烁 -->
+         <XtxSkeleton width="60px" height="18px" style="margin-right:5px" bg="rgba(255,255,255,0.2)" />
+         <XtxSkeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)" />
+        </template>
       </li>
       <!-- 品牌推荐,写死的数据 -->
          <li>
@@ -41,6 +52,19 @@
           </RouterLink>
         </li>
       </ul>
+         <!-- 品牌数据 -->
+      <ul v-if='currentId==="brandId"'>
+        <li class="brand" v-for="item in brand.brands" :key="item.id">
+          <RouterLink to="/">
+            <img :src="item.picture" alt="">
+            <div class="info">
+              <p class="place"><i class="iconfont icon-dingwei"></i>{{item.place}}</p>
+              <p class="name ellipsis">{{item.nameEn}}</p>
+              <p class="desc ellipsis-2">{{item.name}}</p>
+            </div>
+          </RouterLink>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -48,6 +72,7 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, ref, reactive } from 'vue'
+import { findBrand } from '@/api/home.js'
 // import { findBrand } from '@/api/home.js'
 export default {
   name: 'HomeCategory',
@@ -70,6 +95,13 @@ export default {
       name: '品牌',
       children: [{ id: 'brand-children', name: '品牌推荐' }],
       brands: []
+    })
+
+    // 调用接口获取品牌列表数据
+    findBrand().then(ret => {
+      if (ret.result) {
+        brand.brands = ret.result
+      }
     })
     return {
       currentId, goods, brand
@@ -175,5 +207,18 @@ export default {
       display: block;
     }
   }
+// 侧边导航栏,,后边跟的小字(小标签)上的动画,这里是大盒子套小盒子,,,大盒子占位,小盒子控制背景色
+// xtx-skeleton这个类,是在自定义组件中的,直接写出来的,在大盒子上写了这个类名
+  .xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
 }
 </style>
