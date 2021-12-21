@@ -7,4 +7,6 @@ import store from './store'
 import 'normalize.css'
 // 基础样式,都写在common.less中
 import '@/styles/common.less'
-createApp(App).use(store).use(router).mount('#app')
+// 导入自定义组件库
+import XtxUI from '@/components/library/index.js'
+createApp(App).use(store).use(router).use(XtxUI).mount('#app')

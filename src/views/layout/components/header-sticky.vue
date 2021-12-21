@@ -17,20 +17,30 @@
 <script>
 import TopHeaderCommon from '@/components/top-header-common.vue'
 // 吸顶组件
-import { ref } from 'vue'
+// import { ref } from 'vue'
+
+import { useWindowScroll } from '@vueuse/core' // 吸顶的第三方包
 export default {
   name: 'AppHeaderSticky',
   components: { TopHeaderCommon },
-  setup () {
-    // 监听页面的滚动
-    const top = ref(0)
-    window.onscroll = () => {
-      top.value = document.documentElement.scrollTop
-    }
+  // 这里监听页面滚动,也可以借用第三方包来实现 npm i @vueuse/core@5.3.0
+  // setup () {
+  //   // 监听页面的滚动
+  //   const top = ref(0)
+  //   window.onscroll = () => {
+  //     top.value = document.documentElement.scrollTop
+  //   }
 
-    return {
-      top
-    }
+  //   return {
+  //     top
+  //   }
+  // }
+
+  setup () {
+    // y表示具体顶部的滚动距离 会动态更新
+    // 给y取个别名  top
+    const { y: top } = useWindowScroll()
+    return { top }
   }
 }
 </script>
