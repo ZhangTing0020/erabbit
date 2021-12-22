@@ -69,22 +69,50 @@ export default {
 
 <style scoped lang="less">
 .goods-list {
+// flex 布局
+/* 1.找到父子关系,将父元素设置 display:flex
+2.确定主轴方向 flex-direction 不写的话,默认是X轴
+3.使用flex属性设置子元素在主轴方向上的大小   flex 看子元素是否要自适应(大小要不要随着屏幕的宽度的变化而变化)
+4.设置主轴对齐方式 justify-content
+5.设置侧轴对齐方式 align-items
+*/
+
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; // space-between 空白在相邻项目之间
   height: 406px;
   li {
     width: 306px;
     height: 406px;
     background: #f0f9f4;
+    // 混入
     .hoverShadow();
+  //   .hoverShadow () {
+  //   transition: all .5s;
+  //   &:hover {
+  //       // 之所以要写成3d效果，因为3d有GPU加速
+  //     transform: translate3d(0,-3px,0);
+  //     box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  //   }
+  // }
     img {
       width: 306px;
       height: 306px;
     }
+    /*
+    1. text-indent 文本缩进 1em就相当于一个字的 font-size 之所以不用px单位,是因为当font-size修改之后,text-indent也要跟着修改,用em就不用跟着修改
+    2. 文本水平对齐方式：text-align
+    盒子的居中
+      文本,span标签 a标签 行内元素
+      input标签,img标签 等行内块元素
+      需要给以上元素的父元素设置
+
+      块元素 div p h 等是不能用text-align:center来实现水平居中的,而是要用margin: 0 auto
+    */
     p {
       font-size: 22px;
       padding: 12px 30px 0 30px;
-      text-align: center;
+      text-align: center; // 文本水平对齐方式
+      // ?????????????????????这是怎么实现价格居中的
     }
     .price {
       color: @priceColor;

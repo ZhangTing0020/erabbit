@@ -125,7 +125,7 @@ export default {
 .xtx-carousel{
   width: 100%;
   height: 100%;
-  min-width: 300px;
+  min-width: 300px; // ???????????????????????????????
   min-height: 150px;
   position: relative;
   .carousel{
@@ -134,14 +134,14 @@ export default {
       width: 100%;
       height: 100%;
     }
-    &-item {
+    &-item { //.carousel-item
       width: 100%;
       height: 100%;
       position: absolute;
       left: 0;
       top: 0;
       opacity: 0;
-      transition: opacity 0.5s linear;
+      transition: opacity 0.5s linear; // ????????????????????????动画????
     //   控制透明度
       &.fade {
         opacity: 1;
@@ -152,7 +152,7 @@ export default {
         height: 100%;
       }
     }
-    &-indicator {
+    &-indicator { //.carousel-indicator
       position: absolute;
       left: 0;
       bottom: 20px;
