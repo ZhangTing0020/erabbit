@@ -7,6 +7,7 @@ const Login = () => import('@/views/login/index.vue')
 const Layout = () => import('@/views/layout/index.vue')
 const Home = () => import('@/views/home/index.vue')
 const Test = () => import('@/views/test/index.vue')
+const Product = () => import('@/views/product/index.vue')
 
 const routes = [
   {
@@ -14,7 +15,8 @@ const routes = [
     component: Layout,
     children: [
       // 二级路由配置,,,如果路径为空的话,,默认跳转到这个页面
-      { path: '', component: Home }
+      { path: '', component: Home },
+      { path: 'product/:id', component: Product }
     ]
   },
   {
