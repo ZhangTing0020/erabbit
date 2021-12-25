@@ -20,7 +20,7 @@ export default {
   actions: {
     async updateCate (context) {
       const ret = await findHeadCategory()
-      console.log(ret)
+      // console.log(ret)
       if (ret && ret.result) {
         // 触发store中的mutations
         context.commit('updateCate', ret.result)

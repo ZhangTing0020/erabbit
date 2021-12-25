@@ -17,6 +17,8 @@
         </div>
         <div class="spec">
           <GoodsName :detail='detail'/>
+           <!-- 规格组件 -->
+          <GoodsSku :specs='detail.specs' :skus='detail.skus'/>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -44,7 +46,7 @@ import { useRoute } from 'vue-router'
 import GoodsImage from './components/goods-image.vue'
 import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
-
+import GoodsSku from './components/goods-sku'
 // 把组件的功能拆分为hook方法，方便后续功能代码的拆分
 const useGoods = () => {
   // 创建route对象：类似于this.$route
@@ -59,9 +61,10 @@ const useGoods = () => {
 
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
   setup () {
     const detail = useGoods()
+    console.log(detail)
     return { detail }
   }
 }
