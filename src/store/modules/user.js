@@ -6,6 +6,11 @@ export default {
       msg: 'nihao',
       // 用户信息
       profile: {
+        id: '',
+        avatar: '',
+        nickname: '',
+        account: '',
+        mobile: '',
         token: ''
       }
     }
@@ -13,6 +18,9 @@ export default {
   mutations: {
     updateMsg (state, payload) {
       state.msg = payload
+    },
+    updateInfo (state, payload) {
+      state.profile = payload
     }
   },
   actions: {},
